@@ -1,6 +1,6 @@
 "use client";
 
-import { createTodoListAction } from "@/actions/todo";
+import { updateTodoListAction } from "@/actions/todo";
 import {
   Form,
   FormControl,
@@ -22,20 +22,21 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { todoFormSchema, TodoFormValues } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Plus } from "lucide-react";
+import { PenIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { Checkbox } from "./ui/checkbox";
 import Spinner from "./Spinner";
+import { ITodo } from "@/interfaces";
 
-const AddTodoForm = () => {
+const EditTodoForm = ({ todo }: { todo: ITodo }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const defaultValues: Partial<TodoFormValues> = {
-    title: "",
-    body: "",
-    completed: false,
+    title: todo.title,
+    body: todo.body as string,
+    completed: todo.completed,
   };
 
   const form = useForm<TodoFormValues>({
@@ -44,12 +45,13 @@ const AddTodoForm = () => {
     mode: "onChange",
   });
 
-  const onSubmit = async ({ title, body, completed }: TodoFormValues) => {
+  const onSubmit = async (data: TodoFormValues) => {
     setIsLoading(true);
-    await createTodoListAction({
-      title,
-      body,
-      completed,
+    await updateTodoListAction({
+      id: todo.id,
+      title: data.title,
+      body: data.body as string,
+      completed: data.completed,
     });
     setIsOpen(false);
     form.reset();
@@ -61,14 +63,14 @@ const AddTodoForm = () => {
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
           <Button onClick={() => setIsOpen(true)}>
-            <Plus className="mr-2" size={18} /> New ToDo
+            <PenIcon size={18} />
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Add a new ToDo</DialogTitle>
+            <DialogTitle>Edit ToDo</DialogTitle>
             <DialogDescription>
-              Fill out the form below to create a new ToDo.
+              Fill out the form below to edit the ToDo.
             </DialogDescription>
           </DialogHeader>
           <div className="py-4">
@@ -130,7 +132,7 @@ const AddTodoForm = () => {
                 />
 
                 <Button type="submit">
-                  {isLoading ? <Spinner /> : "Add Todo"}
+                  {isLoading ? <Spinner /> : "Save"}
                 </Button>
               </form>
             </Form>
@@ -141,4 +143,4 @@ const AddTodoForm = () => {
   );
 };
 
-export default AddTodoForm;
+export default EditTodoForm;

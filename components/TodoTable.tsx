@@ -1,4 +1,3 @@
-"use client";
 import {
   Table,
   TableBody,
@@ -9,9 +8,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "./ui/button";
-import { Check, PenIcon, TrashIcon, X } from "lucide-react";
 import { ITodo } from "@/interfaces/index";
+import { Check, X } from "lucide-react";
+import TodosTableActions from "./TodosTableActions";
 import { Badge } from "./ui/badge";
 // import { TodoFormValues } from "@/schema";
 
@@ -49,12 +48,7 @@ const TodoTable = ({ data }: { data: ITodo[] }) => {
                 </TableCell>
 
                 <TableCell className="flex a gap-2 justify-end">
-                  <Button size={"icon"} variant={"secondary"}>
-                    <PenIcon size={18} />
-                  </Button>
-                  <Button size={"icon"} variant={"destructive"}>
-                    <TrashIcon size={18} />
-                  </Button>
+                  <TodosTableActions todo={todo} />
                 </TableCell>
               </TableRow>
             ))
