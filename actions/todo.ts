@@ -8,8 +8,15 @@ import { revalidatePath } from "next/cache";
 const prisma = new PrismaClient();
 
 // Fetch todos from the database
-export const getTodoListAction = async () => {
+export const getTodoUserListAction = async ({
+  userID,
+}: {
+  userID: string | null;
+}) => {
   return await prisma.todo.findMany({
+    where: {
+      user_id: userID as string,
+    },
     orderBy: {
       cratedAt: "desc",
     },
@@ -21,16 +28,19 @@ export const createTodoListAction = async ({
   title,
   body,
   completed,
+  userID,
 }: {
   title: string;
   body: string | undefined;
   completed: boolean;
+  userID: string | null;
 }) => {
   await prisma.todo.create({
     data: {
       title,
       body,
       completed,
+      user_id: userID as string,
     },
   });
   revalidatePath("/");

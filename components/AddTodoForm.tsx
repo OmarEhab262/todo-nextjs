@@ -28,7 +28,7 @@ import { useState } from "react";
 import { Checkbox } from "./ui/checkbox";
 import Spinner from "./Spinner";
 
-const AddTodoForm = () => {
+const AddTodoForm = ({ userID }: { userID: string | null }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -50,6 +50,7 @@ const AddTodoForm = () => {
       title,
       body,
       completed,
+      userID,
     });
     setIsOpen(false);
     form.reset();

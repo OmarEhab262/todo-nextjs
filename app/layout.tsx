@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "./providers/theme-provider";
 import { ClerkProvider } from "@clerk/nextjs";
+import Nav from "@/components/Nav";
 export const metadata: Metadata = {
   title: "Todo App ",
   description: "Todo App with Next.js",
@@ -23,6 +24,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <Nav />
             {children}
           </ThemeProvider>
         </body>

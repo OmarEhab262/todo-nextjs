@@ -32,11 +32,11 @@ const TodoTable = ({ data }: { data: ITodo[] }) => {
         <TableBody>
           {Array.isArray(data) && data.length > 0 ? (
             data.map((todo) => (
-              <TableRow key={todo.id}>
-                <TableCell className="font-medium">{todo.id}</TableCell>
-                <TableCell>{todo.title}</TableCell>
+              <TableRow key={todo?.id}>
+                <TableCell className="font-medium">{todo?.id}</TableCell>
+                <TableCell>{todo?.title}</TableCell>
                 <TableCell className="text-center ">
-                  {todo.completed ? (
+                  {todo?.completed ? (
                     <Badge variant="secondary">
                       <Check size={20} strokeWidth={3} color="green" />
                     </Badge>
