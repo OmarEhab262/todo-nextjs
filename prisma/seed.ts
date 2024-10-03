@@ -19,8 +19,9 @@ async function main() {
     data: Array.from({ length: 3 }, () => ({
       title: faker.lorem.sentence(),
       body: faker.lorem.paragraph(),
-      //   completed: faker.datatype.boolean(),
-      //   cratedAt: faker.date.recent(),
+      user_id: "66fedd14747ebd77afd52",
+      completed: faker.datatype.boolean(),
+      cratedAt: faker.date.recent(),
     })),
   });
 }

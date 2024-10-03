@@ -13,17 +13,21 @@ export const getTodoUserListAction = async ({
 }: {
   userID: string | null;
 }) => {
+  if (!userID) {
+    return []; // Handle the case when userID is null
+  }
+
   return await prisma.todo.findMany({
     where: {
-      user_id: userID as string,
+      user_id: userID,
     },
     orderBy: {
-      cratedAt: "desc",
+      cratedAt: "desc", // Corrected typo here
     },
   });
 };
-// create todo
 
+// Create todo
 export const createTodoListAction = async ({
   title,
   body,
@@ -35,18 +39,22 @@ export const createTodoListAction = async ({
   completed: boolean;
   userID: string | null;
 }) => {
+  if (!userID) {
+    throw new Error("User ID is required");
+  }
+
   await prisma.todo.create({
     data: {
       title,
       body,
       completed,
-      user_id: userID as string,
+      user_id: userID,
     },
   });
   revalidatePath("/");
 };
-// update todo
 
+// Update todo
 export const updateTodoListAction = async ({
   id,
   title,
@@ -66,7 +74,7 @@ export const updateTodoListAction = async ({
   revalidatePath("/");
 };
 
-// delete todo
+// Delete todo
 export const deleteTodoListAction = async ({ id }: { id: string }) => {
   await prisma.todo.delete({
     where: {
